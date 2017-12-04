@@ -1,4 +1,6 @@
+#pragma once
 #include<iostream>
+#include <fstream>
 #include <map>
 #include <list>
 #include <vector>
@@ -29,6 +31,7 @@ class M3U8Parser {
         M3U8Base *m3u8Base;
         M3UMedia *m3uMedia;
         int m3u8Version;
+		std::list<std::string> playlistIndex;
     public:
         M3U8Parser():
             playListType(M3U8_TYPE_UNKNOWN),
@@ -42,7 +45,8 @@ class M3U8Parser {
             return m3uMedia;
         }
 
-        int parser(const char* data, int size) {
+        int parser(const char* data, int size, int playListType = M3U8_TYPE_UNKNOWN) {
+			//static int playListType = M3U8_TYPE_UNKNOWN;
             int offset = 0;
             int lineNo = -1;
             MediaSegment *curMediaSegment = NULL;
@@ -142,6 +146,11 @@ class M3U8Parser {
                             delete curMediaSegment;
                             curMediaSegment = NULL;
                         }
+						if (line.find(".m3u8") != std::string::npos)
+						{
+							playlistIndex.push_back(line);
+							playListType = M3U8_TYPE_UNKNOWN;
+						}
                         continue;
                     }
                 }
@@ -151,6 +160,9 @@ class M3U8Parser {
                 m3uMedia->setM3UVersion(m3u8Version);
                 //(*m3uMedia).dump();
             }
+
+			if (playlistIndex.size() != 0)
+				return -2;
 
             std::cout<<"size is "<<mMediaSegmentVector.size()<<std::endl;
             return -1;

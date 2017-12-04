@@ -2,35 +2,35 @@
 #define __HLSCOMMON_H__
 
 //Basic Tags
-const char* EXTM3U = "#EXTM3U";
-const char* EXT_X_VERSION = "#EXT-X-VERSION";
+static constexpr const char* EXTM3U = "#EXTM3U";
+static constexpr const char* EXT_X_VERSION = "#EXT-X-VERSION";
 
 //Media Playlist Tags
-const char* EXT_X_TARGETDURATION = "#EXT-X-TARGETDURATION";
-const char* EXT_X_MEDIA_SEQUENCE = "#EXT-X-MEDIA-SEQUENCE";
-const char* EXT_X_DISCONTINUITY_SEQUENCE = "#EXT-X-DISCONTINUITY-SEQUENCE";
-const char* EXT_X_ENDLIST = "#EXT-X-ENDLIST";
-const char* EXT_X_PLAYLIST_TYPE = "#EXT-X-PLAYLIST-TYPE";
-const char* EXT_X_I_FRAMES_ONLY = "#EXT-X-I-FRAMES-ONLY";
+static constexpr const char* EXT_X_TARGETDURATION = "#EXT-X-TARGETDURATION";
+static constexpr const char* EXT_X_MEDIA_SEQUENCE = "#EXT-X-MEDIA-SEQUENCE";
+static constexpr const char* EXT_X_DISCONTINUITY_SEQUENCE = "#EXT-X-DISCONTINUITY-SEQUENCE";
+static constexpr const char* EXT_X_ENDLIST = "#EXT-X-ENDLIST";
+static constexpr const char* EXT_X_PLAYLIST_TYPE = "#EXT-X-PLAYLIST-TYPE";
+static constexpr const char* EXT_X_I_FRAMES_ONLY = "#EXT-X-I-FRAMES-ONLY";
 
 //Master Playlist Tags
-const char* EXT_X_MEDIA = "#EXT-X-MEDIA";
-const char* EXT_X_STREAM_INF = "#EXT-X-STREAM-INF";
-const char* EXT_X_I_FRAME_STREAM_INF = "#EXT-X-I-FRAME-STREAM-INF";
-const char* EXT_X_SESSION_DATA = "#EXT-X-SESSION-DATA";
-const char* EXT_X_SESSION_KEY = "#EXT-X-SESSION-KEY";
+static constexpr const char* EXT_X_MEDIA = "#EXT-X-MEDIA";
+static constexpr const char* EXT_X_STREAM_INF = "#EXT-X-STREAM-INF";
+static constexpr const char* EXT_X_I_FRAME_STREAM_INF = "#EXT-X-I-FRAME-STREAM-INF";
+static constexpr const char* EXT_X_SESSION_DATA = "#EXT-X-SESSION-DATA";
+static constexpr const char* EXT_X_SESSION_KEY = "#EXT-X-SESSION-KEY";
 
 //Media or Master Playlist Tags
-const char* EXT_X_INDEPENDENT_SEGMENTS = "#EXT-X-INDEPENDENT-SEGMENTS";
-const char* EXT_X_START = "#EXT-X-START";
+static constexpr const char* EXT_X_INDEPENDENT_SEGMENTS = "#EXT-X-INDEPENDENT-SEGMENTS";
+static constexpr const char* EXT_X_START = "#EXT-X-START";
 
 //Media Segment Tags
-const char* EXTINF = "#EXTINF";
-const char* EXT_X_BYTERANGE = "#EXT-X-BYTERANGE";
-const char* EXT_X_DISCONTINUITY = "#EXT-X-DISCONTINUITY";
-const char* EXT_X_KEY = "#EXT-X-KEY";
-const char* EXT_X_MAP = "#EXT-X-MAP";
-const char* EXT_X_PROGRAM_DATE_TIME = "#EXT-X-PROGRAM-DATE-TIME";
-const char* EXT_X_DATERANGE = "#EXT-X-DATERANGE";
+static constexpr const char* EXTINF = "#EXTINF";
+static constexpr const char* EXT_X_BYTERANGE = "#EXT-X-BYTERANGE";
+static constexpr const char* EXT_X_DISCONTINUITY = "#EXT-X-DISCONTINUITY";
+static constexpr const char* EXT_X_KEY = "#EXT-X-KEY";
+static constexpr const char* EXT_X_MAP = "#EXT-X-MAP";
+static constexpr const char* EXT_X_PROGRAM_DATE_TIME = "#EXT-X-PROGRAM-DATE-TIME";
+static constexpr const char* EXT_X_DATERANGE = "#EXT-X-DATERANGE";
 
 #endif

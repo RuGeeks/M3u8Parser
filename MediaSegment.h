@@ -11,38 +11,59 @@ class MediaSegment {
         double duration;
         bool discontinuity; 
         std::string uri;
+		bool adware;
     public:
         MediaSegment():
             uri(""),
             discontinuity(false),
-            duration(0) {
-            }
+            duration(0),
+			adware (false)
+		{
+        }
 
-        int parseMediaSegemnt(const std::string &line) { 
-            if(StringHelper::startWith(line, EXTINF)) {
+        int parseMediaSegemnt(const std::string &line) 
+		{ 
+            if(StringHelper::startWith(line, EXTINF))
+			{
                 parseSegmentDuration(line, &duration);
             }
-            if(StringHelper::startWith(line, EXT_X_DISCONTINUITY)) {
+            if(StringHelper::startWith(line, EXT_X_DISCONTINUITY)) 
+			{
                 discontinuity = true;
             }
-            if(!StringHelper::startWith(line, "#")) {
+            if(!StringHelper::startWith(line, "#")) 
+			{
                 uri = line;
             }
             return 0;
         }
 
-        std::string getUri() {
+        std::string getUri() 
+		{
             return uri;
         }
 
-        int getDuration() {
+        int getDuration()
+		{
             return duration;
         }
 
-        void dump() {
+		bool isAdware ()
+		{
+			return adware;
+		}
+
+		void setAdware()
+		{
+			adware = true;
+		}
+
+        void dump() 
+		{
             printf("\n<-------mediasegement------->\n");
             printf("duration : %f\n", duration);
             printf("uri : %s \n", uri.c_str());
+			printf("is adware: %d \n", adware);
             printf("<--------------------------->\n\n");
         }
 

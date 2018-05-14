@@ -12,6 +12,8 @@
 #include "M3U8Base.h"
 #include "M3UMedia.h"
 
+#include "boost/regex.hpp"
+
 enum {
     M3U8_TYPE_UNKNOWN = 0,
     M3U8_TYPE_MASTER = 1,
@@ -32,6 +34,8 @@ class M3U8Parser {
         M3UMedia *m3uMedia;
         int m3u8Version;
 		std::list<std::string> playlistIndex;
+		bool adware = false;
+		boost::regex scte35Regex{ "#EXT-X-SCTE35:CUE=\"\\/\\S+\\/\\S+\\/\\/\\S+\",CUE-(OUT|IN)=YES", boost::regex::icase };
     public:
         M3U8Parser():
             playListType(M3U8_TYPE_UNKNOWN),
@@ -105,6 +109,30 @@ class M3U8Parser {
                         }
                         playListType = M3U8_TYPE_MASTER;
                     }
+					if (StringHelper::startWith(line, EXT_X_SCTE35))
+					{
+						if (playListType == M3U8_TYPE_MASTER) 
+						{
+							return ERROR_MALFORMED;
+						}
+						playListType = M3U8_TYPE_MEDIA;
+
+						boost::smatch result;
+	
+						if (boost::regex_match(line, result, scte35Regex))
+						{
+							for (auto res = result.begin(); res != result.end(); ++res)
+							{
+								if (res == result.begin())
+									continue;
+
+								if (*res == "OUT")
+									adware = true;
+								else
+									adware = false;
+							}
+						}
+					}
 
                     //parse media playlist
                     if(M3UMedia::isMediaPlayListTag(line)) {
@@ -135,8 +163,11 @@ class M3U8Parser {
                     if(!StringHelper::startWith(line, "#")) {
                         if(playListType == M3U8_TYPE_MEDIA && curMediaSegment != NULL) {
                             curMediaSegment->parseMediaSegemnt(line);
+							if (adware)
+								curMediaSegment->setAdware();
+
                             mMediaSegmentVector.push_back(curMediaSegment);
-                            //curMediaSegment->dump();
+                            curMediaSegment->dump();
                             if(m3uMedia == NULL) {
                                 m3uMedia = new M3UMedia();
                             }
@@ -158,7 +189,7 @@ class M3U8Parser {
 
             if((playListType == M3U8_TYPE_MEDIA) && (m3uMedia != NULL)) {
                 m3uMedia->setM3UVersion(m3u8Version);
-                //(*m3uMedia).dump();
+                (*m3uMedia).dump();
             }
 
 			if (playlistIndex.size() != 0)

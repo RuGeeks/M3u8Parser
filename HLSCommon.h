@@ -33,4 +33,7 @@ static constexpr const char* EXT_X_MAP = "#EXT-X-MAP";
 static constexpr const char* EXT_X_PROGRAM_DATE_TIME = "#EXT-X-PROGRAM-DATE-TIME";
 static constexpr const char* EXT_X_DATERANGE = "#EXT-X-DATERANGE";
 
+//Slice command
+static constexpr const char* EXT_X_SCTE35 = "#EXT-X-SCTE35";
+
 #endif

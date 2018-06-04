@@ -48,7 +48,7 @@ class MediaSegment {
             return duration;
         }
 
-		bool isAdware ()
+		bool isAdware () const
 		{
 			return adware;
 		}

@@ -43,9 +43,9 @@ class MediaSegment {
             return uri;
         }
 
-        int getDuration()
+        int getDuration() const
 		{
-            return duration;
+            return int(duration);
         }
 
 		bool isAdware () const

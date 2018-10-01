@@ -112,6 +112,13 @@ class M3UMedia : public M3U8Base {
             return mediaSegments;
         }
 
+        //XXX: hack to test NSK
+        void segmentsTestHack() {
+            if (!mediaSegments.empty()) {
+                mediaSegments.back().setAdware();
+            }
+        }
+
         void dump() {
             std::cout<<"--------------- dump M3UMedia ----------------"<<std::endl;
             std::cout<<"version: "<<version<<std::endl;

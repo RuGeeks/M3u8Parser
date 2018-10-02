@@ -38,7 +38,7 @@ class MediaSegment {
             return 0;
         }
 
-        std::string getUri() 
+        std::string getUri() const
 		{
             return uri;
         }

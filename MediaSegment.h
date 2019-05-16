@@ -1,3 +1,4 @@
+#include <chrono>
 #include "StringHelper.h"
 #include "HLSError.h"
 #include "HLSCommon.h"
@@ -12,12 +13,14 @@ class MediaSegment {
         bool discontinuity; 
         std::string uri;
 		bool adware;
+		std::chrono::system_clock::time_point timepoint;
     public:
         MediaSegment():
             uri(""),
             discontinuity(false),
             duration(0),
-			adware (false)
+			adware (false),
+			timepoint(std::chrono::system_clock::now())
 		{
         }
 
@@ -83,6 +86,16 @@ class MediaSegment {
             }
             return false;
         }
+
+	std::chrono::system_clock::time_point getTimePoint()
+	{
+		return timepoint;
+	}
+
+	void setTimePoint(const std::chrono::system_clock::time_point& tp)
+	{
+		timepoint = tp;
+	}
 };
 
 #endif

@@ -5,10 +5,10 @@
 
 class M3UMedia : public M3U8Base {
     private:
-        int targetDuration;
         int sequence;
         int bandWidth;
         bool hasEndTag;
+        int targetDuration;
         std::list<MediaSegment> mediaSegments;
     public:
         M3UMedia():
@@ -21,7 +21,7 @@ class M3UMedia : public M3U8Base {
         static bool parseTargetDuration(const std::string &line, int *x) {
             int colonPos = line.find(":");
             if(colonPos < 0) {
-                return ERROR_MALFORMED;
+                return false;
             }
             bool ret = StringHelper::parseInt32(line.c_str() + colonPos + 1, x);
             return ret;
@@ -30,7 +30,7 @@ class M3UMedia : public M3U8Base {
         static bool parseMediaSequence(const std::string &line, int *x) {
             int colonPos = line.find(":");
             if(colonPos < 0) {
-                return ERROR_MALFORMED;
+                return false;
             }
             bool ret = StringHelper::parseInt32(line.c_str() + colonPos + 1, x);
             return ret;
@@ -41,7 +41,7 @@ class M3UMedia : public M3U8Base {
             return targetDuration;
         }
 
-        int setTargetDuration(int v) {
+        void setTargetDuration(int v) {
             targetDuration = v;
         }
 
@@ -50,7 +50,7 @@ class M3UMedia : public M3U8Base {
             return sequence;
         }
 
-        int setMediaSequence(int v) {
+        void setMediaSequence(int v) {
             sequence = v;
         }
 
@@ -95,7 +95,7 @@ class M3UMedia : public M3U8Base {
                 tagsVector.push_back(EXT_X_PLAYLIST_TYPE);
                 tagsVector.push_back(EXT_X_I_FRAMES_ONLY);
             }
-            for(int i = 0; i < tagsVector.size(); i++) {
+            for(size_t i = 0; i < tagsVector.size(); i++) {
                 if(StringHelper::startWith(line, tagsVector[i])) {
                     return true;
                 }

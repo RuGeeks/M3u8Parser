@@ -9,9 +9,9 @@
 
 class MediaSegment {
     private:
-        double duration;
-        bool discontinuity; 
         std::string uri;
+        bool discontinuity;
+        double duration;
 		bool adware;
 		std::chrono::system_clock::time_point timepoint;
     public:
@@ -24,17 +24,17 @@ class MediaSegment {
 		{
         }
 
-        int parseMediaSegemnt(const std::string &line) 
-		{ 
+        int parseMediaSegemnt(const std::string &line)
+		{
             if(StringHelper::startWith(line, EXTINF))
 			{
                 parseSegmentDuration(line, &duration);
             }
-            if(StringHelper::startWith(line, EXT_X_DISCONTINUITY)) 
+            if(StringHelper::startWith(line, EXT_X_DISCONTINUITY))
 			{
                 discontinuity = true;
             }
-            if(!StringHelper::startWith(line, "#")) 
+            if(!StringHelper::startWith(line, "#"))
 			{
                 uri = line;
             }
@@ -61,7 +61,7 @@ class MediaSegment {
 			adware = true;
 		}
 
-        void dump() 
+        void dump()
 		{
             printf("\n<-------mediasegement------->\n");
             printf("duration : %f\n", duration);
@@ -74,9 +74,9 @@ class MediaSegment {
         static bool parseSegmentDuration(std::string line, double *x) {
             int colonPos = line.find(":");
             if(colonPos < 0) {
-                return ERROR_MALFORMED;
+                return false;
             }
-            bool ret = StringHelper::parseDouble(line.c_str() + colonPos + 1, x); 
+            bool ret = StringHelper::parseDouble(line.c_str() + colonPos + 1, x);
             return ret;
         }
 

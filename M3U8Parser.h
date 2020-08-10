@@ -28,11 +28,11 @@ enum {
 class M3U8Parser {
     private:
         int playListType;
-        bool isM3U8File;
-        std::vector<MediaSegment*> mMediaSegmentVector;
+        int m3u8Version;
         M3U8Base *m3u8Base;
         M3UMedia *m3uMedia;
-        int m3u8Version;
+        bool isM3U8File;
+        std::vector<MediaSegment*> mMediaSegmentVector;
 		std::list<std::string> playlistIndex;
 		bool adware = false;
 		boost::regex scte35Regex{ "#EXT-X-SCTE35:CUE=\"\\/\\S+\\/\\S+\\/\\/\\S+\",CUE-(OUT|IN)=YES", boost::regex::icase };

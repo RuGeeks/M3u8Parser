@@ -63,7 +63,7 @@ class M3U8Parser {
                 if(lineNo == 0) {
                     if(line == EXTM3U) {
                         isM3U8File = true;
-                        std::cout<<"this is a m3u8 file\n";
+                        //std::cout<<"this is a m3u8 file\n";
                     } else {
                         return ERROR_NOT_M3U8_FILE;
                     }
@@ -73,7 +73,7 @@ class M3U8Parser {
                         int v = -1;
                         if(M3U8Base::parseM3UVersion(line, &v)) {
                             m3u8Version = v;
-                            std::cout<<"m3u8 version is "<<m3u8Version<<std::endl;
+                            //std::cout<<"m3u8 version is "<<m3u8Version<<std::endl;
                         }
                         continue;
                     }
@@ -167,7 +167,7 @@ class M3U8Parser {
 								curMediaSegment->setAdware();
 
                             mMediaSegmentVector.push_back(curMediaSegment);
-                            curMediaSegment->dump();
+                            //curMediaSegment->dump();
                             if(m3uMedia == NULL) {
                                 m3uMedia = new M3UMedia();
                             }
@@ -189,13 +189,13 @@ class M3U8Parser {
 
             if((playListType == M3U8_TYPE_MEDIA) && (m3uMedia != NULL)) {
                 m3uMedia->setM3UVersion(m3u8Version);
-                (*m3uMedia).dump();
+                //(*m3uMedia).dump();
             }
 
 			if (playlistIndex.size() != 0)
 				return -2;
 
-            std::cout<<"size is "<<mMediaSegmentVector.size()<<std::endl;
+            //std::cout<<"size is "<<mMediaSegmentVector.size()<<std::endl;
             return -1;
         }
 };

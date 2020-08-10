@@ -64,7 +64,7 @@ class M3UMedia : public M3U8Base {
                 if(!parseTargetDuration(line, &targetDuration)) {
                     targetDuration = 0;
                 }
-                std::cout<<"targetDuration is "<<targetDuration<<std::endl;
+                //std::cout<<"targetDuration is "<<targetDuration<<std::endl;
                 return true;
             }
 
@@ -72,13 +72,13 @@ class M3UMedia : public M3U8Base {
                 if(!parseMediaSequence(line, &sequence)) {
                     sequence = 0;
                 }
-                std::cout<<"sequence is "<<sequence<<std::endl;
+                //std::cout<<"sequence is "<<sequence<<std::endl;
                 return true;
             }
 
             if(line == EXT_X_ENDLIST) {
                 hasEndTag = true;
-                std::cout<<"find endlist ..........."<<std::endl;
+                //std::cout<<"find endlist ..........."<<std::endl;
                 return true;
             }
 

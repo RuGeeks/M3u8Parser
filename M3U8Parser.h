@@ -29,10 +29,10 @@ class M3U8Parser {
     private:
         int playListType;
         int m3u8Version;
-        M3U8Base *m3u8Base;
-        M3UMedia *m3uMedia;
+        //std::shared_ptr<M3U8Base> m3u8Base;
+        std::shared_ptr<M3UMedia> m3uMedia;
         bool isM3U8File;
-        std::vector<MediaSegment*> mMediaSegmentVector;
+        std::vector<std::shared_ptr<MediaSegment>> mMediaSegmentVector;
 		std::list<std::string> playlistIndex;
 		bool adware = false;
 		boost::regex scte35Regex{ "#EXT-X-SCTE35:CUE=\"\\/\\S+\\/\\S+\\/\\/\\S+\",CUE-(OUT|IN)=YES", boost::regex::icase };
@@ -40,12 +40,10 @@ class M3U8Parser {
         M3U8Parser():
             playListType(M3U8_TYPE_UNKNOWN),
             m3u8Version(-1),
-            m3u8Base(NULL),
-            m3uMedia(NULL),
             isM3U8File(false){
             }
 
-        M3UMedia* getM3uMedia() {
+        std::shared_ptr<M3UMedia> getM3uMedia() {
             return m3uMedia;
         }
 
@@ -53,7 +51,7 @@ class M3U8Parser {
 			//static int playListType = M3U8_TYPE_UNKNOWN;
             int offset = 0;
             int lineNo = -1;
-            MediaSegment *curMediaSegment = NULL;
+            std::shared_ptr<MediaSegment> curMediaSegment = NULL;
             while(offset < size) {
                 //std::cout<<"offset is "<<offset<<" size is "<<size<<std::endl;
                 std::string line = StringHelper::getLine(data, &offset, size);
@@ -140,8 +138,8 @@ class M3U8Parser {
                             return ERROR_MALFORMED;
                         }
                         playListType = M3U8_TYPE_MEDIA;
-                        if(m3uMedia == NULL) {
-                            m3uMedia = new M3UMedia();
+                        if(!m3uMedia) {
+                            m3uMedia = std::make_shared<M3UMedia>();
                         }
                         m3uMedia->parseMediaPlayList(line);
                         continue;
@@ -153,29 +151,28 @@ class M3U8Parser {
                             return ERROR_MALFORMED;
                         }
                         playListType = M3U8_TYPE_MEDIA;
-                        if(curMediaSegment == NULL) {
-                            curMediaSegment = new MediaSegment();
+                        if(!curMediaSegment) {
+                            curMediaSegment = std::make_shared<MediaSegment>();
                         }
                         curMediaSegment->parseMediaSegemnt(line);
                         continue;
                     }
 
                     if(!StringHelper::startWith(line, "#")) {
-                        if(playListType == M3U8_TYPE_MEDIA && curMediaSegment != NULL) {
+                        if(playListType == M3U8_TYPE_MEDIA && curMediaSegment) {
                             curMediaSegment->parseMediaSegemnt(line);
 							if (adware)
 								curMediaSegment->setAdware();
 
                             mMediaSegmentVector.push_back(curMediaSegment);
                             //curMediaSegment->dump();
-                            if(m3uMedia == NULL) {
-                                m3uMedia = new M3UMedia();
+                            if(!m3uMedia) {
+                                m3uMedia = std::make_shared<M3UMedia>();
                             }
                             if(curMediaSegment != NULL) {
                                 m3uMedia->pushMediaSegment(*curMediaSegment);
                             }
-                            delete curMediaSegment;
-                            curMediaSegment = NULL;
+                            curMediaSegment.reset();
                         }
 						if (line.find(".m3u8") != std::string::npos)
 						{
@@ -187,7 +184,7 @@ class M3U8Parser {
                 }
             }
 
-            if((playListType == M3U8_TYPE_MEDIA) && (m3uMedia != NULL)) {
+            if((playListType == M3U8_TYPE_MEDIA) && m3uMedia) {
                 m3uMedia->setM3UVersion(m3u8Version);
                 //(*m3uMedia).dump();
             }
